@@ -1,0 +1,15 @@
+# Deterministic, instant mocked providers for tests
+omni:
+  mock:
+    skybook:
+      min-latency: 0ms
+      max-latency: 0ms
+      failure-rate: 0
+    globaltravel:
+      min-latency: 0ms
+      max-latency: 0ms
+      failure-rate: 0
+    aurora:
+      min-latency: 0ms
+      max-latency: 0ms
+      failure-rate: 0

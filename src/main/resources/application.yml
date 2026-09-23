@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: omni-flight-aggregator
+  jackson:
+    deserialization:
+      # lets clients omit passenger counts they don't need, e.g. {"adults": 2} means no children or infants
+      fail-on-null-for-primitives: false
+
+omni:
+  search:
+    # a provider that has not answered within this time is reported as TIMEOUT and skipped
+    provider-timeout: 3s
+  # simulated behaviour of the mocked providers; remove once real integrations replace them
+  mock:
+    skybook:        # fast OTA
+      min-latency: 150ms
+      max-latency: 600ms
+      failure-rate: 0
+    globaltravel:   # slow agency that sometimes exceeds the timeout
+      min-latency: 1000ms
+      max-latency: 3200ms
+      failure-rate: 0.05
+    aurora:         # airline direct, flaky
+      min-latency: 400ms
+      max-latency: 1500ms
+      failure-rate: 0.25
