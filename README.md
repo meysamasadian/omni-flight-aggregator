@@ -8,7 +8,7 @@ On every search request the service queries all providers (OTAs, travel agencies
 pushes results to the client as **Server-Sent Events** the moment they are ready. A slow or failing
 provider never delays or breaks the others.
 
-There are no real integrations yet: the three providers are mocks behind the same adapter interface a real
+There are no real integrations yet: the providers are mocks behind the same adapter interface a real
 integration would use.
 
 | Provider       | Kind   | Mocked behaviour (see `application.yml`)     |
@@ -16,6 +16,7 @@ integration would use.
 | `skybook`      | OTA    | fast (150-600 ms)                            |
 | `globaltravel` | agency | slow (1.0-3.2 s), occasionally times out     |
 | `aurora`       | airline| medium (0.4-1.5 s), fails 25% of the time    |
+| `slowair`      | fake   | always 20 s, so it always times out; **off by default**, enable with `omni.mock.slowair.enabled=true` |
 
 ## Run
 
@@ -75,8 +76,8 @@ Prices are in each provider's own currency; there is no currency conversion yet.
 ```
 POST /search ─► FlightSearchService ──┬─► SkyBookAdapter ──► SkyBookClient (mock)      ─┐
                 (flatMap over all     ├─► GlobalTravelAdapter ► GlobalTravelClient (mock) ├─► SSE events
-                 adapters, per-       └─► AuroraAdapter ───► AuroraClient (mock)        ─┘   as each completes
-                 provider timeout)
+                 adapters, per-       ├─► AuroraAdapter ───► AuroraClient (mock)         │   as each completes
+                 provider timeout)    └─► SlowAirAdapter ──► SlowAirClient (mock, opt-in)─┘
 ```
 
 - `provider/FlightProviderAdapter` is the adapter contract: standard criteria in, standard offers out.
