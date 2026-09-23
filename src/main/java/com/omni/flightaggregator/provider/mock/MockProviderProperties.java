@@ -10,7 +10,8 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 public record MockProviderProperties(
 		@DefaultValue Behavior skybook,
 		@DefaultValue Behavior globaltravel,
-		@DefaultValue Behavior aurora) {
+		@DefaultValue Behavior aurora,
+		@DefaultValue Behavior slowair) {
 
 	/**
 	 * @param minLatency lower bound of the simulated response time

@@ -24,3 +24,8 @@ omni:
       min-latency: 400ms
       max-latency: 1500ms
       failure-rate: 0.25
+    slowair:        # fake, very slow provider that always exceeds the provider timeout
+      enabled: false  # opt in to see a provider time out on every search
+      min-latency: 20s
+      max-latency: 20s
+      failure-rate: 0
